@@ -1,6 +1,7 @@
 import React, {FC} from 'react';
 import './Hello.pcss';
-import {proxy, useSnapshot} from 'valtio';
+import {proxy} from 'valtio';
+import {useProxy} from 'valtio/macro';
 
 const store = proxy({
     user: 'AAA' as string,
@@ -14,10 +15,10 @@ const store = proxy({
 );
 
 export const Hello: FC = () => {
-  const {user} = useSnapshot(store);
+  useProxy(store);
 
   return <div className={'Hello'}>
-    <h1>Hello {user}</h1>
-    <input type={'text'} value={user} onChange={(event) => store.changeName(event.target.value)}/>
+    <h1>Hello {store.user}</h1>
+    <input type={'text'} value={store.user} onChange={(event) => store.changeName(event.target.value)}/>
   </div>;
 }
